@@ -1,0 +1,63 @@
+{
+  "name": "batch_request_module",
+  "version": "1.0.0",
+  "description": "Batch Request Module",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_ENV=dev nodemon ./server/server.js --exec babel-node",
+    "build": "babel server -d build",
+    "clean": "rm -rf build",
+    "rebuild": "npm run clean && npm run build ",
+    "prod": "NODE_ENV=prod node ./build/server.js",
+    "forever:start": "NODE_ENV=prod forever start -a ./build/server.js",
+    "test": "nyc mocha --compilers js:babel-core/register server/**/*.test.js --timeout 5000",
+    "test-watch": "nodemon --exec 'npm test'",
+    "test-specific": "mocha --compilers js:babel-core/register server/**/Reasons/*.test.js --timeout 5000",
+    "test-watch-specific": "nodemon --exec 'npm run test-specific'"
+  },
+  "engines": {
+    "node": ">=v8.4.0"
+  },
+  "keywords": [],
+  "author": "Asif",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "datejs": "^1.0.0-rc3",
+    "express": "^4.15.4",
+    "express-session": "^1.15.6",
+    "forever": "^0.15.3",
+    "hat": "0.0.3",
+    "helmet": "^3.8.1",
+    "istanbul": "^0.4.5",
+    "joi": "^13.2.0",
+    "jsonwebtoken": "^8.2.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.22.1",
+    "mongoose": "^4.11.9",
+    "morgan": "^1.8.2",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^7.2.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.26.0",
+    "coveralls": "^3.0.1",
+    "eslint": "^4.5.0",
+    "eslint-plugin-node": "^5.1.1",
+    "expect": "^1.20.2",
+    "mocha": "^3.5.0",
+    "nodemon": "^1.11.0",
+    "nyc": "^11.9.0",
+    "request": "^2.85.0"
+  }
+}
