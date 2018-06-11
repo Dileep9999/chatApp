@@ -1,4 +1,4 @@
-# BRM 2.0
+# Chat App
 Start mongodb service
 ```
 sudo service mongod start
