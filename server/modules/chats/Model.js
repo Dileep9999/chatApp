@@ -4,9 +4,7 @@ import Joi from "joi";
 
 const MessageSchema=new mongoose.Schema(
   {
-    message:{
-      type:String
-    },
+   
      users:{
        type:[]
      },
@@ -21,23 +19,10 @@ const MessageSchema=new mongoose.Schema(
          CreatedAt:Date
        }]
      },
-     created: {
+     createdAt: {
       type: Date,
       required: true
-    },
-    from: {
-      type: String,
-      // required: true
-    },
-    text: {
-      type: String,
-      // required: true
-    },
-    conversationId: {
-      type: String,
-      // required: true
-    },
-    
+    }
     
 
   },
@@ -60,11 +45,13 @@ const UpdateChat=(conversation_id,new_message)=>Message.findOneAndUpdate({conver
   {"$push":{"conversation":new_message}},{ new: true }
 );
 
+const getUserChats=(chats)=>Message.find({conversation_id:{$in:chats}});
 
 
 module.exports={
   saveChat,
   findChatById,
   Message,
-  UpdateChat
+  UpdateChat,
+  getUserChats
 };

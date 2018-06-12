@@ -29,5 +29,25 @@ const abc = (http)=>{
 };
 
 
+const getchats=(chats)=>{
+  // let chatlist=[];
+  // if(chats[0]){
+  //   chats.map(d=>{
+  //     findChatById(d).then(result=>{
+  //       chatlist.push(result);
+  //     });
+  //  });
+  //      }else{
+  //        return  
+  // }
 
-module.exports = abc;
+
+
+};
+
+
+module.exports = {
+  abc,
+  getchats
+}
+  ;

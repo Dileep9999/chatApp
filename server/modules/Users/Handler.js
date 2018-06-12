@@ -93,10 +93,16 @@ const findByUserId = (user_id) => {
   return findUserByUserId(user_id)
     .then(user => {
       if (user) {
+        let user1 = user.toObject();
+        delete user1['password'];
+        delete user1['_id'];
+        delete user1['__v'];
+        console.log(user1);
+        
         return Promise.resolve({
           statusCode: 200,
           message: "User Found",
-          data: user
+          data: user1
         });
       } else {
         return Promise.reject({

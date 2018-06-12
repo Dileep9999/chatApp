@@ -1,6 +1,6 @@
 import passport from "passport";
 import { isValidString } from "../../utils/utils";
-import { createNewUser, userLogin,getUsers} from "./Handler";
+import { createNewUser, userLogin,getUsers,findByUserId} from "./Handler";
 
 import SignupValidator from "../../validators/registeration";
 import SigninValidator from "../../validators/login";
@@ -72,6 +72,25 @@ export default router => {
       email: req.user.email,
     
     });
+  });
+
+
+
+  router.post("/finduser",jwtAuthenticate,(req,res)=>{
+  
+findByUserId(req.body.user_id).then(result=>{
+return res.status(result.statusCode).json({
+success:true,
+data:result.data,
+message:result.message
+});
+}).catch(err=>{
+  return res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message
+  });
+
+});
   });
 
 
