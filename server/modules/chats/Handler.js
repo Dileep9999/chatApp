@@ -1,5 +1,5 @@
 
-import {saveChat,findChatById, Message} from './Model';
+import {saveChat,findChatById, Message,getUserChats} from './Model';
 import { Server } from 'http';
 
 
@@ -30,16 +30,7 @@ const abc = (http)=>{
 
 
 const getchats=(chats)=>{
-  // let chatlist=[];
-  // if(chats[0]){
-  //   chats.map(d=>{
-  //     findChatById(d).then(result=>{
-  //       chatlist.push(result);
-  //     });
-  //  });
-  //      }else{
-  //        return  
-  // }
+
 
 
 

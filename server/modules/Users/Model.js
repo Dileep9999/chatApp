@@ -108,8 +108,6 @@ const findUserByUserId = user_id => userModel.findOne({ user_id });
 const UpdateFriends=(user_id,createdAt)=>userModel.findOneAndUpdate({user_id},{"$push":{"Friends":user_id,"createdAt":createdAt}}, { new: true });
 const UpdateGroups=(group_id,createdAt)=>userModel.findOneAndUpdate({user_id},{"$push":{"Groups":group_id,"createdAt":createdAt}}, { new: true });
 
-
-
 const findUserByUserType = user_type => userModel.find({ user_type });
 const findUserByUserIdAndUpdateApprover = (user_id, obj) =>
   userModel.findOneAndUpdate({ user_id }, { $set: obj }, { new: true });

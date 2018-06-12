@@ -6,8 +6,8 @@ import Joi from "joi";
 const GroupSchema=new mongoose.Schema(
     {
      
-       users:{
-         type:[]
+       admin:{
+           type:String
        },
        conversation_id:{
          type:String,
@@ -20,22 +20,12 @@ const GroupSchema=new mongoose.Schema(
            CreatedAt:Date
          }]
        },
-       created: {
+       createdAt: {
         type: Date,
         required: true
       },
-      from: {
-        type: String,
-        // required: true
-      },
-      text: {
-        type: String,
-        // required: true
-      },
-      conversationId: {
-        type: String,
-        // required: true
-      },
+     
+     
       
       
   
