@@ -3,8 +3,9 @@ const router = express.Router();
 
 // Import all the custom routes
 const routes = [
-  require("./modules/ReasonforBatch/Router"),
-  
+  // require("./modules/chats/Router"),
+  // require("./modules/groups/Router"),
+  require("./modules/Users/Router")  
 ];
 
 export default app => {
@@ -16,3 +17,5 @@ export default app => {
   // register routes to app
   app.use(router);
 };
+
+

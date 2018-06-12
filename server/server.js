@@ -10,13 +10,15 @@ import routes from './routes';
 import logger from 'morgan';
 import helmet from 'helmet';
 import passport from 'passport';
+import abc from './modules/chats/Handler';
 
 
 // Common imports
 import bodyParser from 'body-parser';
 import express from 'express';
 const app = express();
-
+const server=require('http').createServer(app);
+const io = require('socket.io')(server);
 // when env is dev, log via morgan
 if (process.env.NODE_ENV === 'dev') {
     app.use(logger('dev'));
@@ -31,7 +33,16 @@ app.use(bodyParser.json({ limit: '50mb' }));
 // for parsing the url encoded data using qs library
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-
+abc(server);
+io.on('connection', socket =>{
+        console.log('test');
+        socket.on('chat message', function(msg){
+          io.emit('chat message', msg);
+        });
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
+});
 
 // CORS Support
 app.use(function (req, res, next) {
@@ -62,18 +73,24 @@ require('./middlewares/passport')(passport);
 // adding err handling middleware, this is a post-call middleware
 errorHandler(app);
 
+app.get('/', function(req, res){
+    res.sendFile(__dirname + '/index.html');
+  });
+
 // open db connection before server starts
 dbHandler.openConnection().then((db_details) => {
     console.log(`Db is connected to ${db_details.db.s.databaseName}`);
-
     // start server on port
-    app.listen(env().PORT, () => {
+    server.listen(env().PORT, () => {
         console.log(`server listening on ${env().PORT} `);
     });
-
 }, (err) => {
     console.log('error in opening the connection', err);
 });
+
+
+
+
 
 // kill process when Ctrl+C is hit
 process.on('SIGINT', () => {

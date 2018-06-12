@@ -18,15 +18,28 @@ const userSchema = new mongoose.Schema(
     },
     first_name: {
       type: String,
+      // required: true
+    },
+   
+    last_name: {
+      type: String,
       //required: true
     },
-    last_name: {
+    full_name: {
+      type: String,
+      //required: true
+    },
+    mobile_number: {
       type: String,
       //required: true
     },
     password: {
       type: String,
       required: true
+    },
+    img:{
+      data:Buffer,
+      contentType: String
     },
     createdAt: {
       type: Date
@@ -38,11 +51,11 @@ const userSchema = new mongoose.Schema(
     },
 
     PendingRequests:{
-      type=[]
+      type:[]
     },
     
     Groups:{
-      type=[]
+      type:[]
     }
    
   },
@@ -92,6 +105,9 @@ const findUserByUserIdAndUpdate = (user_id, user_type) => userModel.findOneAndUp
 const findUserById = (id, cb) => userModel.findById(id, cb);
 
 const findUserByUserId = user_id => userModel.findOne({ user_id });
+const UpdateFriends=(user_id,createdAt)=>userModel.findOneAndUpdate({user_id},{"$push":{"Friends":user_id,"createdAt":createdAt}}, { new: true });
+const UpdateGroups=(group_id,createdAt)=>userModel.findOneAndUpdate({user_id},{"$push":{"Groups":group_id,"createdAt":createdAt}}, { new: true });
+
 
 
 const findUserByUserType = user_type => userModel.find({ user_type });
@@ -110,5 +126,7 @@ module.exports = {
   findUserByUserId,
   findUserByUserIdAndUpdate,
   findUserByUserType,
-  findUserByUserIdAndUpdateApprover
+  findUserByUserIdAndUpdateApprover,
+  UpdateFriends,
+  UpdateGroups
 };

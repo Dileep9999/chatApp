@@ -1,6 +1,6 @@
 import passport from "passport";
 import { isValidString } from "../../utils/utils";
-import { createNewUser, userLogin, grantAccess, getUsers, grantApprover } from "./Handler";
+import { createNewUser, userLogin,getUsers} from "./Handler";
 
 import SignupValidator from "../../validators/registeration";
 import SigninValidator from "../../validators/login";
@@ -10,12 +10,16 @@ const jwtAuthenticate = passport.authenticate("jwt", { session: false });
 
 export default router => {
   router.post("/signup", SignupValidator, function (req, res) {
+    
     const user_id = req.user_id;
-    const first_name=req.first_name;
-    const last_name=req.last_name;
+    const first_name=req.body.first_name;
+    const last_name=req.body.last_name;
+    const mobile_number=req.body.mobile_number;
     const email = req.email;
     const password = req.password;
-    createNewUser(user_id, email, password)
+    console.log(req);
+    
+    createNewUser(user_id, email,first_name,last_name,mobile_number, password)
       .then(result => {
         return res.status(result.statusCode).json({
           success: true,
@@ -42,7 +46,9 @@ export default router => {
             user: {
               email: result.user.email,
               user_id: result.user.user_id,
-              user_type: result.user.user_type
+              first_name:result.user.first_name,
+              last_name:result.user.last_name,
+              mobile_number:result.user.mobile_number
             }
           });
         })
@@ -64,7 +70,7 @@ export default router => {
     return res.json({
       user_id: req.user.user_id,
       email: req.user.email,
-      user_type: req.user.userType
+    
     });
   });
 

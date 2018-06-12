@@ -10,7 +10,7 @@ import {
 } from "./Model";
 import { genToken } from "../../utils/utils";
 
-const createNewUser = (user_id, email,first_name,last_name, password) => {
+const createNewUser = (user_id, email,first_name,last_name,mobile_number, password) => {
   return Promise.all([findUserByEmail(email), findUserByUserId(user_id)])
     .then(result => {
       result = result.filter(ele => ele === null);
@@ -20,6 +20,8 @@ const createNewUser = (user_id, email,first_name,last_name, password) => {
           email: email,
           first_name:first_name,
           last_name:last_name,
+          full_name:first_name+last_name,
+          mobile_number:mobile_number,
           password: password
         });
         return saveUser(newUser);
@@ -62,13 +64,21 @@ const userLogin = (userid_email, password) => {
           message: "Password didn't match"
         });
       } else {
+        console.log(user_obj[0]);
         const token = genToken(user_obj[0]);
         return Promise.resolve({
+          
+          
           token: token,
           user: {
-            email: user_obj[0].email,
+           
             user_id: user_obj[0].user_id,
-            user_type: user_obj[0].user_type
+            email: user_obj[0].email,
+            first_name:user_obj[0].first_name,
+            last_name:user_obj[0].last_name,
+            full_name:user_obj[0].full_name,
+            mobile_number:user_obj[0].mobile_number
+            
           }
         });
       }
@@ -131,9 +141,6 @@ const getUsers = (user_type) => {
 module.exports = {
   createNewUser,
   userLogin,
-  grantAccess,
   findByUserId,
   getUsers,
-  grantApprover,
-  validateApprover
 };
