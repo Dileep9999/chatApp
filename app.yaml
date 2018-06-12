@@ -1,0 +1,4 @@
+# [START chatApp_yaml]
+runtime: nodejs
+env: flex
+# [END chatApp_yaml]
