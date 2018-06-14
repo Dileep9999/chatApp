@@ -44,8 +44,9 @@ const userSchema = new mongoose.Schema(
     createdAt: {
       type: Date
     },
-
-
+    lastSeen:{
+      type:Date
+    },
     Friends:{
       type:[]
     },

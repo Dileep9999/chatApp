@@ -1,44 +1,56 @@
 
-import {saveChat,findChatById, Message,getUserChats} from './Model';
-import { Server } from 'http';
+import { saveChat, findChatById, Message, getUserChats, UpdateChat } from './Model';
+import { UpdateFriends, UpdateGroups, findUserById } from '../Users/Model';
+import hat from 'hat';
 
 
-
-const abc = (http)=>{
-  const io=require('socket.io')(http);
-  io.on('connection', function(soc){
-    soc.on('chat message', function(msg){
-      let message=new Message(
-        {
-          message:msg
-        }
-      
-        
-      );
-      saveChat(message);
-  
-      io.emit('chat message', msg);
+const users = [];
+const abc = (server) => {
+  const io = require('socket.io')(server);
+  io.on('connection', function (socket) {
+    users.push(socket.user_id);
+    findUserById(socket.user_id).then(r => {
+      findOnlineFriends(r.friends).then(re => {
+        socket.emit('active', { re });
+      });
     });
-   
-    
+
+    socket.on("new conversation", (conversation) => {
+      if (conversation.conversation_id != undefined) {
+        const chat = new Message({
+          users: [conversation.users],
+          conversation_id: hat(),
+          conversation: conversation.conversation,
+          createdAt: new Date(),
+        });
+      }
+
+
+    });
+    socket.on("old conversation", (oldconv) => {
+      socket.emit("message", { conversation_id: oldconv.conversation_id, message: oldconv.message });
+      UpdateChat(oldconv.conversation_id, oldconv.message);
+    });
   });
-  
-  io.on("disconnect",(soc)=>{
+
+  io.on("disconnect", (soc) => {
     console.log('disconnected');
   });
 };
 
-
-const getchats=(chats)=>{
-
-
-
-
+const findOnlineFriends = (friends) => {
+  const onlinefriends = [];
+  for (const user of users) {
+    for (const friend of friends) {
+      if (friend === user) {
+        onlinefriends.push(friend);
+      }
+    }
+  }
+  return onlinefriends;
 };
 
 
 module.exports = {
-  abc,
-  getchats
-}
-  ;
+  abc
+};

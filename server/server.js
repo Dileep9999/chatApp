@@ -10,7 +10,7 @@ import routes from './routes';
 import logger from 'morgan';
 import helmet from 'helmet';
 import passport from 'passport';
-import abc from './modules/chats/Handler';
+import {abc} from './modules/chats/Handler';
 
 
 // Common imports
@@ -18,7 +18,6 @@ import bodyParser from 'body-parser';
 import express from 'express';
 const app = express();
 const server=require('http').createServer(app);
-const io = require('socket.io')(server);
 // when env is dev, log via morgan
 if (process.env.NODE_ENV === 'dev') {
     app.use(logger('dev'));
@@ -33,16 +32,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 // for parsing the url encoded data using qs library
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-abc(server);
-io.on('connection', socket =>{
-        console.log('test');
-        socket.on('chat message', function(msg){
-          io.emit('chat message', msg);
-        });
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
-});
+
 
 // CORS Support
 app.use(function (req, res, next) {
@@ -88,7 +78,7 @@ dbHandler.openConnection().then((db_details) => {
     console.log('error in opening the connection', err);
 });
 
-
+abc(server);
 
 
 

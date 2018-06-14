@@ -10,13 +10,14 @@ const MessageSchema=new mongoose.Schema(
      },
      conversation_id:{
        type:String,
-      //  required:true
+       required:true
      },
      conversation:{
        type:[{
          sender:String,
          message:String,
-         CreatedAt:Date
+         CreatedAt:Date,
+        
        }]
      },
      createdAt: {

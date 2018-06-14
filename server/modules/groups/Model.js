@@ -24,6 +24,9 @@ const GroupSchema=new mongoose.Schema(
         type: Date,
         required: true
       },
+      users:{
+          type:[]
+      }
      
      
       
