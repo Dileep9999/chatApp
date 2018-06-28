@@ -2,7 +2,7 @@
     "db": {
         "test": "mongodb://localhost:27017/chat",
         "prod": "mongodb://localhost:27017/chat",
-        "dev": "mongodb://dileep:testtest123@ds119446.mlab.com:19446/chats"
+        "dev": "mongodb://localhost:27017/chat"
     },
     "port": {
         "test": 3333,

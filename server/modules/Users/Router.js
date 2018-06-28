@@ -48,7 +48,9 @@ export default router => {
               user_id: result.user.user_id,
               first_name:result.user.first_name,
               last_name:result.user.last_name,
-              mobile_number:result.user.mobile_number
+              mobile_number:result.user.mobile_number,
+              friends:result.user.friends,
+              groups:result.user.groups
             }
           });
         })

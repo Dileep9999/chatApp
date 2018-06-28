@@ -10,7 +10,7 @@ import {
 } from "./Model";
 import { genToken } from "../../utils/utils";
 
-const createNewUser = (user_id, email,first_name,last_name,mobile_number, password) => {
+const createNewUser = (user_id, email, first_name, last_name, mobile_number, password) => {
   return Promise.all([findUserByEmail(email), findUserByUserId(user_id)])
     .then(result => {
       result = result.filter(ele => ele === null);
@@ -18,10 +18,10 @@ const createNewUser = (user_id, email,first_name,last_name,mobile_number, passwo
         const newUser = new userModel({
           user_id: user_id,
           email: email,
-          first_name:first_name,
-          last_name:last_name,
-          full_name:first_name+last_name,
-          mobile_number:mobile_number,
+          first_name: first_name,
+          last_name: last_name,
+          full_name: first_name + last_name,
+          mobile_number: mobile_number,
           password: password
         });
         return saveUser(newUser);
@@ -64,21 +64,19 @@ const userLogin = (userid_email, password) => {
           message: "Password didn't match"
         });
       } else {
-        console.log(user_obj[0]);
         const token = genToken(user_obj[0]);
         return Promise.resolve({
-          
-          
           token: token,
           user: {
-           
             user_id: user_obj[0].user_id,
             email: user_obj[0].email,
-            first_name:user_obj[0].first_name,
-            last_name:user_obj[0].last_name,
-            full_name:user_obj[0].full_name,
-            mobile_number:user_obj[0].mobile_number
-            
+            first_name: user_obj[0].first_name,
+            last_name: user_obj[0].last_name,
+            full_name: user_obj[0].full_name,
+            mobile_number: user_obj[0].mobile_number,
+            friends: user_obj[0].Friends,
+            groups: user_obj[0].Groups
+
           }
         });
       }
@@ -93,12 +91,12 @@ const findByUserId = (user_id) => {
   return findUserByUserId(user_id)
     .then(user => {
       if (user) {
-        let user1 = user.toObject();
+        const user1 = user.toObject();
         delete user1['password'];
         delete user1['_id'];
         delete user1['__v'];
         console.log(user1);
-        
+
         return Promise.resolve({
           statusCode: 200,
           message: "User Found",

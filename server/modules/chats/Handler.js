@@ -8,11 +8,18 @@ const users = [];
 const abc = (server) => {
   const io = require('socket.io')(server);
   io.on('connection', function (socket) {
+    console.log('Socket Connected');
+
+
     users.push(socket.user_id);
-    findUserById(socket.user_id).then(r => {
-      findOnlineFriends(r.friends).then(re => {
-        socket.emit('active', { re });
-      });
+    // findUserById(socket.user_id).then(r => {
+    // findOnlineFriends(r.friends).then(re => {
+    socket.emit('active', { msg: 're' });
+    // });
+    // });
+    socket.on("username", (data) => {
+      console.log(data.username);
+
     });
 
     socket.on("new conversation", (conversation) => {
@@ -51,6 +58,30 @@ const findOnlineFriends = (friends) => {
 };
 
 
+
+const getchats = (list) => {
+  const obj_ids = list.map(function (li) { return li.conversation_id; });
+  return findChatById(obj_ids).then(res => {
+    if (res) {
+      return Promise.resolve({
+        statusCode: 200,
+        message: "Chats list",
+        data: res
+      });
+    } else {
+      return Promise.reject({
+        statusCode: 404,
+        message: 'No chats Available'
+      });
+    }
+  });
+};
+
+
+
+
+
 module.exports = {
-  abc
+  abc,
+  getchats
 };

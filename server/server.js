@@ -10,14 +10,14 @@ import routes from './routes';
 import logger from 'morgan';
 import helmet from 'helmet';
 import passport from 'passport';
-import {abc} from './modules/chats/Handler';
+import { abc } from './modules/chats/Handler';
 
 
 // Common imports
 import bodyParser from 'body-parser';
 import express from 'express';
 const app = express();
-const server=require('http').createServer(app);
+const server = require('http').createServer(app);
 // when env is dev, log via morgan
 if (process.env.NODE_ENV === 'dev') {
     app.use(logger('dev'));
@@ -63,9 +63,9 @@ require('./middlewares/passport')(passport);
 // adding err handling middleware, this is a post-call middleware
 errorHandler(app);
 
-app.get('/', function(req, res){
-    res.sendFile(__dirname + '/index.html');
-  });
+// app.get('/', function(req, res){
+//     res.sendFile(__dirname + '/index.html');
+//   });
 
 // open db connection before server starts
 dbHandler.openConnection().then((db_details) => {
